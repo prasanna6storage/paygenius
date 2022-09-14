@@ -1,0 +1,16 @@
+{
+  "name": "paygenius",
+  "version": "1.0.0",
+  "description": "Payment Gateway Integration",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "author": "Prasan",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "crypto-js": "^4.1.1",
+    "nodemon": "^2.0.19"
+  }
+}
