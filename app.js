@@ -1,44 +1,31 @@
-const CryptoJS = require("crypto-js");
-const axios = require("axios");
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
 require('dotenv').config();
 
-const access_key = process.env.ACCESS_TOKEN;                   
+const app = express();
+
+//Routes
+const paymentRoute = require('./routes/createPaymentForm');
+
+const access_key = process.env.ACCESS_TOKEN;
 
 
-//Genarating Signature 
-const getSignature = (data) => {
-
-  let requestPayload = typeof data === "undefined" || data === null || data === "" || data === "{}" ? "" : data;
-
-  const url_path = process.env.VALIDATE_URL_PATH;   
-  const secret_key = process.env.SECRET_KEY;
-  const to_sign = url_path + secret_key + requestPayload;
-  let signature = CryptoJS.enc.Hex.stringify(
-    CryptoJS.HmacSHA256(to_sign, secret_key)
-  );
-
-  signature = CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(signature));
-
-  return signature;
-};
+//Middleware
+app.use(express.urlencoded({extended: true}));
+app.use(express.json())
+app.use(cookieParser());
+app.use(cors());
 
 
+//Route Middleware
+app.use('/api',paymentRoute);
 
-//Making Request
-const makeRequest = async (method, requestUrl, requestBody) =>{
-  try{
-    const http_method = method;
-    const request_url = requestUrl;
-    const data = requestBody;
+const port = process.env.PORT || 2498;
 
-    const signature = await getSignature(data)
-    console.log(signature);
-
-  } catch(err){
-    console.log(err);
-  }
-}
-makeRequest();
+app.listen(port,()=>{
+  console.log(`Server is running on port ${port}`);
+})
 
 
 // const CryptoJS = require("crypto-js");
