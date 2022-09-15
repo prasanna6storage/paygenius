@@ -1,3 +1,4 @@
+const axios = require('axios').default;
 const CryptoJS = require("crypto-js");
 require('dotenv').config();
 
@@ -8,8 +9,24 @@ exports.makeRequest = async (method, requestUrl, requestBody) => {
         const request_url = requestUrl;
         const data = requestBody;
 
-        const signature = await getSignature(data)
+        const signature = await getSignature(data,request_url)
         console.log(signature);
+        let config = {
+            headers: {
+                "Content-Type": "application/json",
+                "Accept":"application/json",
+                "X-Token": process.env.ACCESS_TOKEN,
+                "X-Signature": signature
+            },
+        };
+
+        console.log(request_url);
+        axios.post(request_url,data,config)
+        .then(response =>{
+            return response
+        }).catch(err => {
+            return err
+        })
 
     } catch (err) {
         console.log(err);
@@ -17,13 +34,13 @@ exports.makeRequest = async (method, requestUrl, requestBody) => {
 }
 
 //Genarating Signature 
-const getSignature = (data) => {
+const getSignature = (data , requestApiUrl) => {
 
     let requestPayload = typeof data === "undefined" || data === null || data === "" || data === "{}" ? null : data;
-
-    const url_path = process.env.VALIDATE_URL_PATH;
+    const url_path = requestApiUrl;
     const secret_key = process.env.SECRET_KEY;
-    const to_sign = url_path + secret_key + requestPayload;
+    let to_sign = url_path + "\n" + requestPayload;
+    to_sign = to_sign.trim();
     let signature = CryptoJS.enc.Hex.stringify(
         CryptoJS.HmacSHA256(to_sign, secret_key)
     );

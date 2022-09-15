@@ -1,6 +1,10 @@
 const {makeRequest} = require('../helper/helper');
 const apiEndpoint = require('../helper/constant');
 
+exports.validateGetApi = async (req,res) => {
+
+}
+
 exports.createPaymentForm = async (req, res) => {
  res.send();
 
