@@ -7,6 +7,7 @@ const app = express();
 
 //Routes
 const paymentRoute = require('./routes/createPaymentForm');
+const validateApiRoute = require('./routes/apiValidate');
 
 const access_key = process.env.ACCESS_TOKEN;
 
@@ -20,6 +21,7 @@ app.use(cors());
 
 //Route Middleware
 app.use('/api',paymentRoute);
+app.use('/api',validateApiRoute);
 
 const port = process.env.PORT || 2498;
 
