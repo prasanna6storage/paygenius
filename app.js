@@ -28,11 +28,3 @@ const port = process.env.PORT || 2498;
 app.listen(port,()=>{
   console.log(`Server is running on port ${port}`);
 })
-
-
-// const CryptoJS = require("crypto-js");
-
-// var seed = "788764cf-7ef2-44e7-8688-8875ee3789c1"
-// var seed_hash = CryptoJS.SHA256(seed).toString();
-
-// console.log(seed_hash);
