@@ -49,12 +49,14 @@ const makeRequest = async (method, requestUrl, requestBody) => {
             };
 
             console.log(request_url);
-            axios.post(request_url, data, config)
+            let apiresponse =  await axios.post(request_url,data,config)
                 .then(response => {
-                    return response
+                    const responseData = response.data;
+                    return responseData;
                 }).catch(err => {
                     return err
                 })
+            return apiresponse;
 
         } catch (err) {
             console.log(err);
@@ -64,7 +66,7 @@ const makeRequest = async (method, requestUrl, requestBody) => {
 
 //Genarating Signature 
 const getSignature = (data, requestApiUrl) => {
-    let requestPayload = typeof data === "undefined" || data === null || data === "" || data === "{}" || Object.keys(data).length === 0 ? null : data;
+    let requestPayload = typeof data === "undefined" || data === null || data === "" || data === "{}" || Object.keys(data).length === 0 ? null : JSON.stringify(data);
     const url_path = requestApiUrl;
     const secret_key = process.env.SECRET_KEY;
     let to_sign = "";

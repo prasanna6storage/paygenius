@@ -14,7 +14,6 @@ exports.validatePostApi = async (req, res) => {
 
   const method = "POST";
   const requestAPIUrl = process.env.PAY_GENIUS_BASE_URL + apiEndpoint.validate_api;
-
   const response = await makeRequest(method, requestAPIUrl, req.body);
   res.send(response);
 }
