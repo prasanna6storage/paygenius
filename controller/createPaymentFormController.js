@@ -29,5 +29,5 @@ const confirmPayment = async (requestData , reference) => {
   let method = "POST";
   let requestAPIUrl = process.env.PAY_GENIUS_BASE_URL + `/v2/payment/${reference}/confirm`;
   let response = await makeRequest(method, requestAPIUrl, requestData);
-  return response
+  res.send(response);
 }
